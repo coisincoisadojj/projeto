@@ -1,8 +1,8 @@
 # Sistema de Gestão de Biblioteca Digital - Backend
 
 ## Dupla
-- Seu Nome
-- Nome do seu amigo
+- Jonathan
+- Marcio
 
 ## Descrição do projeto
 API para sistema de empréstimo e leitura de livros digitais.
@@ -20,4 +20,4 @@ API para sistema de empréstimo e leitura de livros digitais.
 3. Rode `npm start` para iniciar o servidor.
 
 ## Hospedagem
-(Adicionar depois, quando subir em produção)
+
