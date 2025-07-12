@@ -1,4 +1,5 @@
 const express = require('express');
+console.log('authRoutes carregado');
 const { body, validationResult } = require('express-validator');
 const { verifyToken, authorizeRoles } = require('../middlewares/authMiddleware');
 
