@@ -1,4 +1,5 @@
 const express = require('express');
+console.log("✅ Arquivo authRoutes carregado com sucesso");
 const { body, validationResult } = require('express-validator');
 const AuthController = require('../controllers/authController');
 
