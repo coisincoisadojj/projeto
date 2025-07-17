@@ -10,12 +10,16 @@ app.get('/teste', (req, res) => {
 
 const authRoutes = require('./routes/authRoutes');
 const bookRoutes = require('./routes/bookRoutes');
+const loanRoutes = require('./routes/loanRoutes');
+
 
 app.use(cors());
 app.use(express.json());
 
 app.use('/auth', authRoutes);
 app.use('/books', bookRoutes);
+app.use('/loans', loanRoutes);
+
 
 
 app.use((req, res) => {
