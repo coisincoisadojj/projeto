@@ -1,36 +1,35 @@
 const express = require('express');
-console.log('authRoutes carregado');
 const { body, validationResult } = require('express-validator');
 const { verifyToken, authorizeRoles } = require('../middlewares/authMiddleware');
+const Book = require('../models/book');
 
 const router = express.Router();
 
-let books = [
-  { id: 1, title: 'Livro A', author: 'Autor A' },
-  { id: 2, title: 'Livro B', author: 'Autor B' },
-];
 
-
-router.get('/', verifyToken, (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
+  const books = await Book.findAll();
   res.json(books);
 });
 
 
-router.post('/',
+router.post(
+  '/',
   verifyToken,
   authorizeRoles('admin', 'bibliotecario'),
   body('title').isString().notEmpty(),
   body('author').isString().notEmpty(),
-  (req, res, next) => {
+  async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
-    next();
-  },
-  (req, res) => {
+
     const { title, author } = req.body;
-    const newBook = { id: books.length + 1, title, author };
-    books.push(newBook);
-    res.status(201).json(newBook);
+
+    try {
+      const newBook = await Book.create({ title, author });
+      res.status(201).json(newBook);
+    } catch (error) {
+      res.status(500).json({ message: 'Erro ao criar o livro', error });
+    }
   }
 );
 
