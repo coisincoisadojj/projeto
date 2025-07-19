@@ -17,7 +17,7 @@ app.use(express.json());
 app.use('/auth', authRoutes);
 app.use('/books', bookRoutes);
 
-// Middleware para endpoint não encontrado
+
 app.use((req, res) => {
   res.status(404).json({ error: 'Endpoint not found' });
 });
@@ -33,7 +33,7 @@ sequelize.authenticate()
     return sequelize.sync({ alter: true });
   })
   .then(() => {
-    console.log('📚 Banco de dados sincronizado');
+    console.log(' Banco de dados sincronizado');
     app.listen(PORT, () => {
       console.log(`Servidor rodando em http://localhost:${PORT}`);
     });
