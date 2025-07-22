@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Biblioteca Digital</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 40px;
+      background-color: #eef2f7;
+      color: #2c3e50;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    h1 {
+      font-size: 3em;
+      margin-bottom: 0.2em;
+    }
+    p.description {
+      font-size: 1.2em;
+      color: #555;
+    }
+    .book-list {
+      max-width: 700px;
+      margin: 0 auto;
+      list-style: none;
+      padding: 0;
+    }
+    .book-list li {
+      background: white;
+      margin-bottom: 15px;
+      padding: 20px 25px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(44, 62, 80, 0.15);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: transform 0.2s ease;
+    }
+    .book-list li:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(44, 62, 80, 0.25);
+    }
+    .book-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .book-title {
+      font-weight: 700;
+      font-size: 1.4em;
+      color: #1a2733;
+    }
+    .book-author {
+      color: #666;
+      font-style: italic;
+      margin-top: 3px;
+    }
+    .book-link {
+      background-color: #3498db;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+    .book-link:hover {
+      background-color: #1d6fa5;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Biblioteca Digital</h1>
+    <p class="description">Bem-vindo à nossa coleção de livros digitais gratuitos. Clique para ler online ou baixar.</p>
+  </header>
+
+  <main>
+    <ul class="book-list">
+      <li>
+        <div class="book-info">
+          <span class="book-title">Dom Casmurro</span>
+          <span class="book-author">Machado de Assis</span>
+        </div>
+        <a class="book-link" href="https://www.dominiopublico.gov.br/download/texto/me000088.pdf" target="_blank" rel="noopener noreferrer">Ler</a>
+      </li>
+      <li>
+        <div class="book-info">
+          <span class="book-title">O Cortiço</span>
+          <span class="book-author">Aluísio Azevedo</span>
+        </div>
+        <a class="book-link" href="https://www.dominiopublico.gov.br/download/texto/me000078.pdf" target="_blank" rel="noopener noreferrer">Ler</a>
+      </li>
+      <li>
+        <div class="book-info">
+          <span class="book-title">Memórias Póstumas de Brás Cubas</span>
+          <span class="book-author">Machado de Assis</span>
+        </div>
+        <a class="book-link" href="https://www.dominiopublico.gov.br/download/texto/me000087.pdf" target="_blank" rel="noopener noreferrer">Ler</a>
+      </li>
+    </ul>
+  </main>
+</body>
+</html>
