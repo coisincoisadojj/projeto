@@ -1,0 +1,19 @@
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<div id="g_id_onload"
+     data-client_id="SEU_CLIENT_ID_DO_GOOGLE"
+     data-callback="handleCredentialResponse">
+</div>
+
+<script>
+function handleCredentialResponse(response) {
+  fetch('http://localhost:3000/auth/google', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token: response.credential })
+  })
+  .then(res => res.json())
+  .then(data => console.log('✅ LOGIN:', data))
+  .catch(err => console.error('❌ ERRO:', err));
+}
+</script>
