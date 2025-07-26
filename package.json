@@ -21,7 +21,9 @@
     "google-auth-library": "^10.1.0",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.2",
-    "react-router-dom": "^7.7.0"
+    "mysql2": "^3.14.2",
+    "react-router-dom": "^7.7.0",
+    "sequelize": "^6.37.7"
   },
   "devDependencies": {
     "jest": "^30.0.4",
