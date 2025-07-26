@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Biblioteca Digital</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #eef2f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: white;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .voltar {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .voltar a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .voltar a:hover {
+      text-decoration: underline;
+    }
+
+    .erro {
+      color: red;
+      font-size: 14px;
+      margin-top: 10px;
+      text-align: center;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <label for="email">E-mail:</label>
+      <input type="email" id="email" required />
+
+      <label for="senha">Senha:</label>
+      <input type="password" id="senha" required />
+
+      <button type="submit">Entrar</button>
+      <p class="erro" id="mensagemErro">E-mail ou senha incorretos.</p>
+    </form>
+    <div class="voltar">
+      <a href="registro.html">Não tem conta? Cadastre-se</a><br>
+      <a href="index.html">← Voltar para a Biblioteca</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const senha = document.getElementById("senha").value;
+
+      const usuarioSalvo = JSON.parse(localStorage.getItem("usuario"));
+
+      if (usuarioSalvo && usuarioSalvo.email === email && usuarioSalvo.senha === senha) {
+        window.location.href = "index.html"; // redireciona para a biblioteca
+      } else {
+        document.getElementById("mensagemErro").style.display = "block";
+      }
+    });
+  </script>
+</body>
+</html>
