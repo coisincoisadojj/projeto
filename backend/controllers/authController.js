@@ -7,7 +7,7 @@ export const register = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
-  const { email, senha, tipo = 'jogador' } = req.body; // define tipo padrão
+  const { email, senha, tipo = 'jogador' } = req.body;
 
   try {
     const [rows] = await db.query('SELECT * FROM usuarios WHERE email = ?', [email]);
@@ -15,12 +15,11 @@ export const register = async (req, res) => {
 
     const hash = await bcrypt.hash(senha, 10);
 
-    // Inclui o campo tipo na inserção
     await db.query('INSERT INTO usuarios (email, senha, tipo) VALUES (?, ?, ?)', [email, hash, tipo]);
 
     res.status(201).json({ message: 'Usuário registrado com sucesso' });
   } catch (err) {
-    res.status(500).json({ message: 'Erro ao registrar', error: err });
+    res.status(500).json({ message: 'Erro ao registrar', error: err.message || err });
   }
 };
 
@@ -35,12 +34,14 @@ export const login = async (req, res) => {
     const match = await bcrypt.compare(senha, usuario.senha);
     if (!match) return res.status(400).json({ message: 'Senha incorreta' });
 
-    // Aqui usa o tipo do usuário vindo do banco
- const token = jwt.sign({ id: usuario.id, tipo: usuario.tipo }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
+    const token = jwt.sign(
+      { id: usuario.id, tipo: usuario.tipo },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
 
     res.json({ token });
   } catch (err) {
-    res.status(500).json({ message: 'Erro ao fazer login', error: err });
+    res.status(500).json({ message: 'Erro ao fazer login', error: err.message || err });
   }
 };
