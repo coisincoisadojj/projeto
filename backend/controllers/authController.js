@@ -1,46 +1,35 @@
-import { db } from '../models/db.js';
+import { pool } from '../db.js';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { validationResult } from 'express-validator';
 
-export const register = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+export async function registerUser(req, res) {
+  const { nome, email, senha, tipo } = req.body;
 
-  const { email, senha, tipo = 'jogador' } = req.body; // define tipo padrão
+  // validar tipo
+  const tiposValidos = ['admin', 'bibliotecario', 'leitor'];
+  if (!tiposValidos.includes(tipo)) {
+    return res.status(400).json({ message: 'Tipo de usuário inválido' });
+  }
 
   try {
-    const [rows] = await db.query('SELECT * FROM usuarios WHERE email = ?', [email]);
-    if (rows.length > 0) return res.status(400).json({ message: 'Email já cadastrado' });
+    // Verificar se email já existe
+    const [rows] = await pool.query('SELECT id FROM users WHERE email = ?', [email]);
+    if (rows.length > 0) {
+      return res.status(409).json({ message: 'Email já cadastrado' });
+    }
 
-    const hash = await bcrypt.hash(senha, 10);
+    // Hash da senha
+    const salt = await bcrypt.genSalt(10);
+    const hashSenha = await bcrypt.hash(senha, salt);
 
-    // Inclui o campo tipo na inserção
-    await db.query('INSERT INTO usuarios (email, senha, tipo) VALUES (?, ?, ?)', [email, hash, tipo]);
+    // Inserir usuário no banco
+    await pool.query(
+      'INSERT INTO users (nome, email, senha, role) VALUES (?, ?, ?, ?)',
+      [nome, email, hashSenha, tipo]
+    );
 
-    res.status(201).json({ message: 'Usuário registrado com sucesso' });
-  } catch (err) {
-    res.status(500).json({ message: 'Erro ao registrar', error: err });
+    return res.status(201).json({ message: 'Usuário registrado com sucesso' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Erro no servidor' });
   }
-};
-
-export const login = async (req, res) => {
-  const { email, senha } = req.body;
-
-  try {
-    const [rows] = await db.query('SELECT * FROM usuarios WHERE email = ?', [email]);
-    if (rows.length === 0) return res.status(400).json({ message: 'Usuário não encontrado' });
-
-    const usuario = rows[0];
-    const match = await bcrypt.compare(senha, usuario.senha);
-    if (!match) return res.status(400).json({ message: 'Senha incorreta' });
-
-    // Aqui usa o tipo do usuário vindo do banco
- const token = jwt.sign({ id: usuario.id, tipo: usuario.tipo }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-
-    res.json({ token });
-  } catch (err) {
-    res.status(500).json({ message: 'Erro ao fazer login', error: err });
-  }
-};
+}

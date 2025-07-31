@@ -6,7 +6,7 @@
 como iniciar o backend
 
 cd backend
-npm run server
+node server.js
 
 cd frontend
 npm start
